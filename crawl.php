@@ -20,5 +20,27 @@ $data = crawlStore($url);
 echo json_encode($data);
 
 function crawlStore($url) {
+    $html = @file_get_contents($url);
+
+    if ($html === false) {
+        return ['error' => 'Failed to retrieve page content.'];
+    }
+
+    preg_match_all('/<h2 class="product-title">(.*?)<\/h2>/', $html, $productNames);
+    preg_match_all('/<span class="price">(.*?)<\/span>/', $html, $prices);
+
+    $products = [];
+    for ($i = 0; $i < count($productNames[1]); $i++) {
+        $products[] = [
+            'name' => trim($productNames[1][$i]),
+            'price' => trim($prices[1][$i] ?? 'Price not found'),
+        ];
+    }
+
+    return [
+        'products' => $products,
+        'categories' => ['Electronics', 'Clothing', 'Home Goods']
+    ];
 }
+
 ?>
