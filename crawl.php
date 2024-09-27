@@ -39,18 +39,23 @@ function crawlStore($url) {
 
     preg_match_all('/<h2 class="product-title">(.*?)<\/h2>/', $html, $productNames);
     preg_match_all('/<span class="price">(.*?)<\/span>/', $html, $prices);
+    preg_match_all('/<span class="discount">(.*?)<\/span>/', $html, $discounts);
+    preg_match_all('/<div class="category">(.*?)<\/div>/', $html, $categories);
 
     $products = [];
     for ($i = 0; $i < count($productNames[1]); $i++) {
         $products[] = [
             'name' => trim($productNames[1][$i]),
             'price' => trim($prices[1][$i] ?? 'Price not found'),
+            'discount' => trim($discounts[1][$i] ?? 'No discount'),
         ];
     }
 
+    $uniqueCategories = array_unique(array_map('trim', $categories[1]));
+    
     return [
         'products' => $products,
-        'categories' => ['Electronics', 'Clothing', 'Home Goods']
+        'categories' => $uniqueCategories,
     ];
 }
 
