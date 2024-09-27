@@ -2,6 +2,17 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
+$validApiKey = 'my-super-secret-key-12345';
+
+$headers = apache_request_headers();
+$apiKey = isset($headers['X-API-Key']) ? $headers['X-API-Key'] : '';
+$url = file_get_contents('urls.txt');
+
+if ($apiKey !== $validApiKey) {
+    echo json_encode(['error' => 'Invalid API Key']);
+    exit;
+}
+
 $url = file_get_contents('urls.txt');
 
 if ($url === false) {
