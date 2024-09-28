@@ -1,8 +1,15 @@
+const apiKey = 'my-super-secret-key-12345';
+
 document.getElementById('fetchData').addEventListener('click', function() {
-    fetch('http://localhost/crawl/crawl.php', {
+    const query = document.getElementById('searchInput').value;
+    const categoryFilter = document.getElementById('categorySelect').value;
+
+    const url = `http://localhost/crawl/crawl.php?query=${encodeURIComponent(query)}&category=${encodeURIComponent(categoryFilter)}`;
+
+    fetch(url, {
         method: 'GET',
         headers: {
-            'X-API-Key': 'my-super-secret-key-12345'
+            'X-API-Key': apiKey
         }
     })
     .then(response => response.json())
@@ -20,7 +27,7 @@ function displayData(data) {
     }
 
     data.products.forEach(product => {
-        display.innerHTML += `<div class="product"><strong>${product.name}</strong>: ${product.price}</div>`;
+        display.innerHTML += `<div class="product"><strong>${product.name}</strong>: ${product.price} (${product.category})</div>`;
     });
     
     display.innerHTML += '<h2>Categories:</h2>';

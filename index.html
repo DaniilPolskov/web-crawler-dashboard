@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Crawler</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .product { margin-bottom: 20px; }
+        .product-title { font-size: 1.5em; }
+        .price { color: green; }
+        .discount { color: red; }
+        .category { font-style: italic; }
+        #dataDisplay { margin-top: 20px; }
+    </style>
 </head>
 <body>
     <h1>Web Crawler for Online Store</h1>
+    <input type="text" id="searchInput" placeholder="Enter product name">
+    <select id="categorySelect">
+        <option value="">All Categories</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Home Goods">Home Goods</option>
+    </select>
     <button id="fetchData">Fetch Data</button>
     <div id="dataDisplay"></div>
     
