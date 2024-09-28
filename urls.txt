@@ -1,1 +1,1 @@
-http://localhost/crawl/index.html
+http://localhost/crawl/test_store.html

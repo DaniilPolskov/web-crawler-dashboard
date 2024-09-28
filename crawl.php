@@ -72,6 +72,7 @@ function filterProducts($data, $query, $categoryFilter) {
     $filteredProducts = array_filter($data['products'], function($product) use ($query, $categoryFilter) {
         $nameMatches = stripos($product['name'], $query) !== false;
         $categoryMatches = empty($categoryFilter) || stripos($product['category'], $categoryFilter) !== false;
+
         return $nameMatches && $categoryMatches;
     });
 
