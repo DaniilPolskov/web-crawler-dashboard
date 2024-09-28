@@ -1,8 +1,13 @@
 document.getElementById('fetchData').addEventListener('click', function() {
-    fetch('http://localhost/crawl/crawl.php')
-        .then(response => response.json())
-        .then(data => displayData(data))
-        .catch(error => console.error('Error:', error));
+    fetch('http://localhost/crawl/crawl.php', {
+        method: 'GET',
+        headers: {
+            'X-API-Key': 'my-super-secret-key-12345'
+        }
+    })
+    .then(response => response.json())
+    .then(data => displayData(data))
+    .catch(error => console.error('Error:', error));
 });
 
 function displayData(data) {
