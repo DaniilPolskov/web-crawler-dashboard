@@ -12,6 +12,10 @@
         .discount { color: red; }
         .category { font-style: italic; }
         #dataDisplay { margin-top: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        canvas { margin: 10px; }
     </style>
 </head>
 <body>
@@ -26,6 +30,7 @@
     <button id="fetchData">Fetch Data</button>
     <div id="dataDisplay"></div>
     <canvas id="categoryChart" width="600" height="600"></canvas>
+    <canvas id="priceChart" width="600" height="200"></canvas>
     
     <script src="app.js"></script>
 </body>
