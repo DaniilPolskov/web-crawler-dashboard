@@ -38,6 +38,7 @@ function displayData(data) {
 
     drawCategoryChart(products);
     drawPriceChart(products);
+    drawDiscountChart(products);
 }
 
 function getCategoryCounts(products) {
@@ -159,11 +160,63 @@ function drawPriceChart(products) {
         const lowerBound = (minPrice + (priceRange / histogram.length) * i).toFixed(2);
         const upperBound = (minPrice + (priceRange / histogram.length) * (i + 1)).toFixed(2);
         ctx.fillText(`${lowerBound} - ${upperBound}`, i * barWidth + barWidth / 4 - 10, canvas.height - 5);
-        }
+    }
 
     ctx.fillStyle = 'black';
     ctx.font = '20px Arial';
     ctx.fillText('Price Distribution', canvas.width / 2 - 50, 20);
+}
+
+function drawDiscountChart(products) {
+    const discounts = products
+        .map(product => ({
+            name: product.name,
+            discount: parseFloat(product.discount.replace(/[^0-9.-]+/g, "")) || 0
+        }))
+
+    const canvas = document.getElementById('discountChart');
+    const ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    if (discounts.length === 0) {
+        ctx.fillStyle = 'black';
+        ctx.font = '16px Arial';
+        ctx.fillText('No Discounts Available', canvas.width / 2 - 50, canvas.height / 2);
+        return;
+    }
+
+    const labels = discounts.map(item => item.name);
+    const discountValues = discounts.map(item => item.discount);
+
+    const maxDiscount = Math.max(...discountValues);
+    const minDiscount = Math.min(...discountValues);
+    const scaleFactor = canvas.height / (maxDiscount - minDiscount) * 0.8;
+
+    ctx.beginPath();
+    ctx.moveTo(50, canvas.height - (discountValues[0] - minDiscount) * scaleFactor - 20);
+
+    discountValues.forEach((discount, index) => {
+        const x = 50 + index * (canvas.width - 100) / (discountValues.length - 1);
+        const y = canvas.height - (discount - minDiscount) * scaleFactor - 20;
+        ctx.lineTo(x, y);
+    });
+
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'blue';
+    ctx.stroke();
+
+    ctx.fillStyle = 'black';
+    labels.forEach((label, index) => {
+        const x = 50 + index * (canvas.width - 100) / (discountValues.length - 1);
+        const y = canvas.height - (discountValues[index] - minDiscount) * scaleFactor - 20;
+
+        ctx.fillText(label, x - 15, y - 10);
+
+        ctx.fillText(`${discountValues[index]}%`, x - 15, y + 10);
+    });
+
+    ctx.fillText('Discount Distribution', canvas.width / 2 - 50, 20);
 }
 
 function getRandomColor() {
