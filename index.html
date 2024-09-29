@@ -16,6 +16,9 @@
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         canvas { margin: 10px; }
+        #progressContainer {width: 100%; background-color: #f3f3f3; border: 1px solid #ccc; margin-bottom: 20px; position: relative;}
+        #progressBar {width: 0%; height: 20px; background-color: #4caf50;}
+        #progressStatus {position: absolute; top: 2px; left: 50%; transform: translateX(-50%); font-weight: bold;}
     </style>
 </head>
 <body>
@@ -32,7 +35,10 @@
     <canvas id="categoryChart" width="600" height="600"></canvas>
     <canvas id="priceChart" width="600" height="200"></canvas>
     <canvas id="discountChart" width="600" height="400"></canvas>
-    
+    <div id="progressContainer">
+        <div id="progressBar"></div>
+        <span id="progressStatus">0%</span>
+    </div>
     <script src="app.js"></script>
 </body>
 </html>

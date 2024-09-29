@@ -1,8 +1,19 @@
-const apiKey = 'my-super-secret-key-12345';
+const apiKey = 'my-super-secret-key-12345'; //unikaalne API võti siin
+let progress = 0;
 
 document.getElementById('fetchData').addEventListener('click', function() {
     const query = document.getElementById('searchInput').value;
     const categoryFilter = document.getElementById('categorySelect').value;
+
+    resetProgress();
+
+    const intervalId = setInterval(() => {
+        if (progress >= 100) {
+            clearInterval(intervalId);
+        } else {
+            updateProgress();
+        }
+    }, 1000);
 
     const url = `http://localhost/crawl/crawl.php?query=${encodeURIComponent(query)}&category=${encodeURIComponent(categoryFilter)}`;
 
@@ -13,9 +24,28 @@ document.getElementById('fetchData').addEventListener('click', function() {
         }
     })
     .then(response => response.json())
-    .then(data => displayData(data))
-    .catch(error => console.error('Error:', error));
+    .then(data => {
+        clearInterval(intervalId);
+        displayData(data);
+    })
+    .catch(error => {
+        clearInterval(intervalId);
+        console.error('Error:', error);
+    });
 });
+
+function resetProgress() {
+    progress = 0;
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('progressStatus').innerText = '0%';
+}
+
+function updateProgress() {
+    progress += 20;
+    if (progress > 100) progress = 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+    document.getElementById('progressStatus').innerText = progress + '%';
+}
 
 function displayData(data) {
     let display = document.getElementById('dataDisplay');
@@ -27,7 +57,6 @@ function displayData(data) {
     }
 
     const products = data.products;
-
     const categoryCounts = getCategoryCounts(products);
     displayCategories(categoryCounts);
 
@@ -173,7 +202,7 @@ function drawDiscountChart(products) {
             name: product.name,
             discount: parseFloat(product.discount.replace(/[^0-9.-]+/g, "")) || 0
         }))
-
+                
     const canvas = document.getElementById('discountChart');
     const ctx = canvas.getContext('2d');
 
