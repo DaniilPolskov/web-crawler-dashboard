@@ -15,7 +15,7 @@ document.getElementById('fetchData').addEventListener('click', function() {
         }
     }, 1000);
 
-    const url = `http://localhost/crawl/crawl.php?query=${encodeURIComponent(query)}&category=${encodeURIComponent(categoryFilter)}`;
+    const url = `http://localhost/web-crawler-dashboard/crawl.php?query=${encodeURIComponent(query)}&category=${encodeURIComponent(categoryFilter)}`;
 
     fetch(url, {
         method: 'GET',
